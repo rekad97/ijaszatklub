@@ -42,6 +42,7 @@ async function create(userParam) {
         user.password = bcrypt.hashSync(userParam.password, 10);
     }
     await user.save();
+    return user._id;
 }
 
 async function _delete(id) {

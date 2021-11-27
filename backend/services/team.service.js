@@ -30,6 +30,7 @@ async function create(teamParam) {
     const team = new Team(teamParam);
 
     await team.save();
+    return team._id;
 }
 
 async function _delete(id) {

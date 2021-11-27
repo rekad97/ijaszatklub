@@ -29,6 +29,7 @@ async function create(setupParam) {
     const setup = new Setup(setupParam);
 
     await setup.save();
+    return setup._id;
 }
 
 async function _delete(id) {

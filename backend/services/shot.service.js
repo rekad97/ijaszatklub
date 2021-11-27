@@ -25,6 +25,7 @@ function getById(id) {
 async function create(shotParam) {
     const shot = new Shot(shotParam);
     await shot.save();
+    return shot._id;
 }
 
 async function _delete(id) {

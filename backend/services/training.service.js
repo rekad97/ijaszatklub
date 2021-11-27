@@ -25,6 +25,7 @@ function getById(id) {
 async function create(trainingParam) {
     const training = new Training(trainingParam);
     await training.save();
+    return training._id;
 }
 
 async function _delete(id) {

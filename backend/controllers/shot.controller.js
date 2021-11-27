@@ -14,7 +14,7 @@ module.exports = router;
 
 function create(req, res, next) {
     shotService.create(req.body)
-        .then(() => res.json({}))
+        .then((shot) => res.json(shot))
         .catch(err => next(err));
 }
 

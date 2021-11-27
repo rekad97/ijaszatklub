@@ -14,7 +14,7 @@ module.exports = router;
 
 function create(req, res, next) {
     teamService.create(req.body)
-        .then(() => res.json({}))
+        .then((team) => res.json(team))
         .catch(err => next(err));
 }
 
