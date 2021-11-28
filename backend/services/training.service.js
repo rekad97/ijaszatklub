@@ -35,6 +35,6 @@ async function _delete(id) {
 async function deleteShots(id) {
     console.log(id);
     let newShots = [];
-    return User.findByIdAndUpdate(
+    return Training.findByIdAndUpdate(
         id, { $set: { shots: newShots } }, { new: true }).then();
 }
