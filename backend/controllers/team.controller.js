@@ -3,7 +3,8 @@ const router = express.Router();
 const teamService = require('../services/team.service');
 
 
-router.post('/users/:id/create', create);
+router.post('/create', create);
+router.post('/:teamId/:userId/add', addUserToTeam);
 router.get('/', getAll);
 router.get('/:id/users', getTeamUsers);
 router.get('/:id', getById);
@@ -14,7 +15,7 @@ module.exports = router;
 
 
 function create(req, res, next) {
-    teamService.create(req.params.id, req.body)
+    teamService.create(req.body)
         .then((team) => res.json(team))
         .catch(err => next(err));
 }
@@ -51,11 +52,29 @@ function _delete(req, res, next) {
 }
 
 function getTrainingsFromTeamUsers(req, res, next) {
-    teamService.getTrainingsFromTeamUsers(req.params.id)
-        .then(trainings => {
-            trainings ? res.json(trainings) : res.sendStatus(404);
-        })
-        .catch(err => {
-            next(err)
-        });
+    teamService.getById(req.params.id).then((team) => {
+        teamService.getTrainingsFromTeamUsers(team)
+            .then(trainings => {
+                trainings ? res.json(trainings) : res.sendStatus(404);
+            })
+            .catch(err => {
+                next(err)
+            });
+    }).catch(err => {
+        next(err);
+    });
+}
+
+function addUserToTeam(req, res, next) {
+    teamService.getById(req.params.teamId).then((team) => {
+        teamService.addUser(team, req.params.userId)
+            .then(() => res.json({}))
+            .catch(err => {
+                next(err)
+            });
+    }).catch(err => {
+        next(err);
+    });
+
+
 }
