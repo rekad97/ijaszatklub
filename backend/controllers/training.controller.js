@@ -8,6 +8,7 @@ router.get('/:id', getById);
 router.delete('/:id', _delete);
 router.get('/:id/shots', getShots)
 router.delete('/:id/shots', deleteShots)
+router.post('/:trainingId/:shotId/add', addShots)
 
 module.exports = router;
 
@@ -51,6 +52,12 @@ function _delete(req, res, next) {
 
 function deleteShots(req, res, next) {
     trainingService.deleteShots(req.params.id)
+        .then(() => res.json({}))
+        .catch(err => next(err));
+}
+
+function addShots(req, res, next) {
+    trainingService.addShots(req.params.trainingId, req.params.shotId)
         .then(() => res.json({}))
         .catch(err => next(err));
 }

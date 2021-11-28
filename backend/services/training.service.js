@@ -5,13 +5,15 @@ const db = require('../database/db');
 
 const Training = db.Training;
 const User = db.User;
+const Shot = db.Shot;
 
 
 module.exports = {
     getById,
     create,
     delete: _delete,
-    deleteShots
+    deleteShots,
+    addShots
 };
 
 
@@ -35,4 +37,10 @@ async function deleteShots(id) {
     let newShots = [];
     return Training.findByIdAndUpdate(
         id, { $set: { shots: newShots } }, { new: true }).then();
+}
+
+async function addShots(trainingId, shotId) {
+    Training.findByIdAndUpdate(trainingId, { $push: { shots: shotId } }, { new: true }).then();
+    Shot.findByIdAndUpdate(shotId, { $set: { trainingId: trainingId } }, { new: true }).then();
+
 }
