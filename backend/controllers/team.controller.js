@@ -66,15 +66,9 @@ function getTrainingsFromTeamUsers(req, res, next) {
 }
 
 function addUserToTeam(req, res, next) {
-    teamService.getById(req.params.teamId).then((team) => {
-        teamService.addUser(team, req.params.userId)
-            .then(() => res.json({}))
-            .catch(err => {
-                next(err)
-            });
-    }).catch(err => {
-        next(err);
-    });
-
-
+    teamService.addUser(req.params.teamId, req.params.userId)
+        .then(() => res.json({}))
+        .catch(err => {
+            next(err)
+        });
 }

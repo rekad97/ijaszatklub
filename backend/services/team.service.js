@@ -56,10 +56,8 @@ async function getTrainingsFromTeamUsers(team) {
 
 }
 
-async function addUser(team, userId) {
-    userService.getById(userId).then((data) => {
-        data.teams.push(team._id)
-    })
-    team.users.push(userId);
+async function addUser(teamId, userId) {
+    User.findByIdAndUpdate(userId, { $push: { teams: teamId } }, { new: true }).then();
+    Team.findByIdAndUpdate(teamId, { $push: { users: userId } }, { new: true }).then();
 
 }
