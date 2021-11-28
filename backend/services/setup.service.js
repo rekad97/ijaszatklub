@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const db = require('../database/db');
 
 const Setup = db.Setup;
+const User = db.User;
 
 
 module.exports = {
@@ -29,6 +30,8 @@ async function create(setupParam) {
     const setup = new Setup(setupParam);
 
     await setup.save();
+    User.findByIdAndUpdate(setup.userId, { $push: { setups: setup._id } }, { new: true }).then();
+
     return setup._id;
 }
 

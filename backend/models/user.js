@@ -9,6 +9,10 @@ const userModel = new Schema({
     ],
     trainings: [
         { type: mongoose.Schema.Types.ObjectId, ref: 'Training' }
+    ],
+    setups: [
+        { type: mongoose.Schema.Types.ObjectId, ref: 'Setup' }
+
     ]
 });
 

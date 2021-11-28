@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const setupModel = new Schema({
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     setupName: { type: String, unique: true, required: true },
     middlePart: { type: String },
     arm: { type: String },
