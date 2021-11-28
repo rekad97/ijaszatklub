@@ -8,6 +8,7 @@ router.post('/register', register);
 router.get('/', getAll);
 router.get('/current', getCurrent);
 router.get('/:id', getById);
+router.get('/:id/trainings', getTrainings);
 router.delete('/:id', _delete);
 
 module.exports = router;
@@ -59,18 +60,12 @@ function _delete(req, res, next) {
 }
 
 
-function verifyToken(req, res, next) {
-    const token = req.headers.authorization.split(' ')[1];
-    if (!token)
-        return res.status(403).send({ auth: false, message: 'No token provided.' });
-    console.log(token)
-        // jwt.verify(token,'secret', function(err, decoded) {
-        //   if (err)
-        //   return res.status(500).send({ auth: false, message: err }); 
-        //   //req.username = decoded.username;
-        //   console.log(decoded)
-        //   next();
-        // });
-    jwt.verify(token);
-    next();
+function getTrainings(req, res, next) {
+    userService.getById(req.params.id)
+        .then(user => {
+            user ? res.json(user.trainings) : res.sendStatus(404);
+        })
+        .catch(err => {
+            next(err)
+        });
 }

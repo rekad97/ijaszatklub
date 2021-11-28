@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const trainingModel = new Schema({
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     isIndoor: { type: Boolean },
     setupId: { type: mongoose.Schema.Types.ObjectId, ref: 'Setup', required: true },
     arrowCnt: { type: Number },

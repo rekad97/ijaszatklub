@@ -12,6 +12,7 @@ module.exports = {
     getById,
     create,
     delete: _delete,
+    getTrainings
 };
 
 async function auth({ email, password }) {
@@ -47,4 +48,9 @@ async function create(userParam) {
 
 async function _delete(id) {
     await User.findByIdAndRemove(id);
+}
+
+async function getTrainings(id) {
+    const user = getById(id);
+    return user.trainings;
 }

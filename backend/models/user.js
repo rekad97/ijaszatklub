@@ -6,6 +6,9 @@ const userModel = new Schema({
     password: { type: String, required: true },
     teams: [
         { type: mongoose.Schema.Types.ObjectId, ref: 'Team' }
+    ],
+    trainings: [
+        { type: mongoose.Schema.Types.ObjectId, ref: 'Training' }
     ]
 });
 
