@@ -9,6 +9,7 @@ router.get('/', getAll);
 router.get('/current', getCurrent);
 router.get('/:id', getById);
 router.get('/:id/trainings', getTrainings);
+router.get('/:id/setups', getSetups);
 router.delete('/:id', _delete);
 
 module.exports = router;
@@ -64,6 +65,16 @@ function getTrainings(req, res, next) {
     userService.getById(req.params.id)
         .then(user => {
             user ? res.json(user.trainings) : res.sendStatus(404);
+        })
+        .catch(err => {
+            next(err)
+        });
+}
+
+function getSetups(req, res, next) {
+    userService.getById(req.params.id)
+        .then(user => {
+            user ? res.json(user.setups) : res.sendStatus(404);
         })
         .catch(err => {
             next(err)
