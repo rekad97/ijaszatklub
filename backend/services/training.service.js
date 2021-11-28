@@ -15,16 +15,14 @@ module.exports = {
 };
 
 
-
 function getById(id) {
     return Training.findById(id);
 }
 
-async function create(id, trainingParam) {
+async function create(trainingParam) {
     const training = new Training(trainingParam);
-    training.userId = id;
     await training.save();
-    User.findByIdAndUpdate(id, { $push: { trainings: training._id } }, { new: true }).then();
+    User.findByIdAndUpdate(training.userId, { $push: { trainings: training._id } }, { new: true }).then();
     return training._id;
 }
 

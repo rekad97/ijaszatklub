@@ -3,7 +3,7 @@ const router = express.Router();
 const trainingService = require('../services/training.service');
 
 
-router.post('/users/:id/create', create);
+router.post('/create', create);
 router.get('/:id', getById);
 router.delete('/:id', _delete);
 router.get('/:id/shots', getShots)
@@ -13,7 +13,7 @@ module.exports = router;
 
 
 function create(req, res, next) {
-    trainingService.create(req.params.id, req.body)
+    trainingService.create(req.body)
         .then((training) => res.json(training))
         .catch(err => next(err));
 }
