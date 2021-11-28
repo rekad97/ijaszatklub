@@ -40,8 +40,10 @@ async function _delete(id) {
 }
 
 async function getTrainingsFromTeamUsers(id) {
-    const team = getById(id);
+    const team = User.findById(id);
+    console.log('teams', team)
     const users = team.users;
+    console.log('users', users);
     for (let i = 0; i < users.length; i++) {
         const user = getById(users[i]);
         return user.trainings;
