@@ -3,7 +3,7 @@ const router = express.Router();
 const shotService = require('../services/shot.service');
 
 
-router.post('/trainings/:id/create', create);
+router.post('/create', create);
 router.get('/:id', getById);
 router.delete('/:id', _delete);
 
@@ -11,7 +11,7 @@ module.exports = router;
 
 
 function create(req, res, next) {
-    shotService.create(req.params.id, req.body)
+    shotService.create(req.body)
         .then((shot) => res.json(shot))
         .catch(err => next(err));
 }

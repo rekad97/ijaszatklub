@@ -19,11 +19,10 @@ function getById(id) {
     return Shot.findById(id);
 }
 
-async function create(id, shotParam) {
+async function create(shotParam) {
     const shot = new Shot(shotParam);
-    shot.trainingId = id;
     await shot.save();
-    Training.findByIdAndUpdate(id, { $push: { shots: shot._id } }, { new: true }).then();
+    Training.findByIdAndUpdate(shot.trainingId, { $push: { shots: shot._id } }, { new: true }).then();
     return shot._id;
 }
 
