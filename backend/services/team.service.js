@@ -12,7 +12,8 @@ module.exports = {
     create,
     delete: _delete,
     getTrainingsFromTeamUsers,
-    addUser
+    addUser,
+    deleteUser
 };
 
 
@@ -59,5 +60,11 @@ async function getTrainingsFromTeamUsers(team) {
 async function addUser(teamId, userId) {
     User.findByIdAndUpdate(userId, { $push: { teams: teamId } }, { new: true }).then();
     Team.findByIdAndUpdate(teamId, { $push: { users: userId } }, { new: true }).then();
+
+}
+
+async function deleteUser(teamId, userId) {
+    User.findByIdAndUpdate(userId, { $pull: { teams: teamId } }, { new: true }).then();
+    Team.findByIdAndUpdate(teamId, { $pull: { users: userId } }, { new: true }).then();
 
 }

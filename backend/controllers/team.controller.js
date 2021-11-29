@@ -10,6 +10,7 @@ router.get('/:id/users', getTeamUsers);
 router.get('/:id', getById);
 router.get('/:id/users/trainings', getTrainingsFromTeamUsers);
 router.delete('/:id', _delete);
+router.delete('/:teamId/delete/:userId', deleteUserFromTeam)
 
 module.exports = router;
 
@@ -67,6 +68,14 @@ function getTrainingsFromTeamUsers(req, res, next) {
 
 function addUserToTeam(req, res, next) {
     teamService.addUser(req.params.teamId, req.params.userId)
+        .then(() => res.json({}))
+        .catch(err => {
+            next(err)
+        });
+}
+
+function deleteUserFromTeam(req, res, next) {
+    teamService.deleteUser(req.params.teamId, req.params.userId)
         .then(() => res.json({}))
         .catch(err => {
             next(err)
