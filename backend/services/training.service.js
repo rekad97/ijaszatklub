@@ -10,6 +10,7 @@ const Shot = db.Shot;
 
 module.exports = {
     getById,
+    getAll,
     create,
     delete: _delete,
     deleteShots,
@@ -20,6 +21,10 @@ module.exports = {
 
 function getById(id) {
     return Training.findById(id);
+}
+
+async function getAll() {
+    return await Training.find();
 }
 
 async function create(trainingParam) {

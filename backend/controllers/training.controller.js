@@ -5,6 +5,7 @@ const trainingService = require('../services/training.service');
 
 router.post('/create', create);
 router.get('/:id', getById);
+router.get('/', getAll);
 router.delete('/:id', _delete);
 router.put('/:id/update', update);
 router.get('/:id/shots', getShots);
@@ -20,7 +21,11 @@ function create(req, res, next) {
         .catch(err => next(err));
 }
 
-
+function getAll(req, res, next) {
+    trainingService.getAll()
+        .then(trainings => res.json(trainings))
+        .catch(err => next(err));
+}
 
 
 function getById(req, res, next) {
