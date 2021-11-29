@@ -13,7 +13,8 @@ module.exports = {
     create,
     delete: _delete,
     deleteShots,
-    addShots
+    addShots,
+    updateTraining
 };
 
 
@@ -43,4 +44,10 @@ async function addShots(trainingId, shotId) {
     Training.findByIdAndUpdate(trainingId, { $push: { shots: shotId } }, { new: true }).then();
     Shot.findByIdAndUpdate(shotId, { $set: { trainingId: trainingId } }, { new: true }).then();
 
+}
+
+async function updateTraining(id, trainingParam) {
+    const training = await Training.findById(id);
+    Object.assign(training, trainingParam);
+    await training.save();
 }

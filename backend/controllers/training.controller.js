@@ -6,9 +6,10 @@ const trainingService = require('../services/training.service');
 router.post('/create', create);
 router.get('/:id', getById);
 router.delete('/:id', _delete);
-router.get('/:id/shots', getShots)
-router.delete('/:id/shots', deleteShots)
-router.post('/:trainingId/:shotId/add', addShots)
+router.put('/:id/update', update);
+router.get('/:id/shots', getShots);
+router.delete('/:id/shots', deleteShots);
+router.post('/:trainingId/:shotId/add', addShots);
 
 module.exports = router;
 
@@ -58,6 +59,12 @@ function deleteShots(req, res, next) {
 
 function addShots(req, res, next) {
     trainingService.addShots(req.params.trainingId, req.params.shotId)
+        .then(() => res.json({}))
+        .catch(err => next(err));
+}
+
+function update(req, res, next) {
+    trainingService.updateTraining(req.params.id, req.body)
         .then(() => res.json({}))
         .catch(err => next(err));
 }
