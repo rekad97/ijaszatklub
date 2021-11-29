@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/landingFragment"
+        android:name="aut.arch.ui.fragments.landing.LandingFragment"
+        android:label="landing_fragment"
+        tools:layout="@layout/fragment_landing">
+        <action
+            android:id="@+id/action_landingFragment_to_trainingFragment"
+            app:destination="@id/trainingFragment" />
+        <action
+            android:id="@+id/action_landingFragment_to_statisticsFragment"
+            app:destination="@id/statisticsFragment" />
+        <action
+            android:id="@+id/action_landingFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_landingFragment_to_teamsFragment"
+            app:destination="@id/teamsFragment" />
+        <action
+            android:id="@+id/action_landingFragment_to_setupsFragment"
+            app:destination="@id/setupsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="aut.arch.ui.fragments.login.LoginFragment"
+        android:label="LoginFragment">
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_landingFragment"
+            app:destination="@id/landingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="aut.arch.ui.fragments.register.RegisterFragment"
+        android:label="register_fragment"
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/action_registerFragment_to_landingFragment"
+            app:destination="@id/landingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="aut.arch.ui.fragments.statistics.StatisticsFragment"
+        android:label="statistics_fragment"
+        tools:layout="@layout/fragment_statistics" />
+    <fragment
+        android:id="@+id/trainingFragment"
+        android:name="aut.arch.ui.fragments.training.TrainingFragment"
+        android:label="training_fragment"
+        tools:layout="@layout/fragment_training" >
+        <action
+            android:id="@+id/action_trainingFragment_to_landingFragment"
+            app:destination="@id/landingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/teamsFragment"
+        android:name="aut.arch.ui.fragments.teams.TeamsFragment"
+        android:label="fragment_teams"
+        tools:layout="@layout/fragment_teams" >
+        <action
+            android:id="@+id/action_teamsFragment_to_landingFragment"
+            app:destination="@id/landingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/setupDetailsFragment"
+        android:name="aut.arch.ui.fragments.setup_details.SetupDetailsFragment"
+        android:label="SetupDetailsFragment" >
+        <argument
+        android:name="setupId"
+        app:argType="string" />
+        <action
+            android:id="@+id/action_setupDetailsFragment_to_landingFragment"
+            app:destination="@id/landingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/setupsFragment"
+        android:name="aut.arch.ui.fragments.setups.SetupsFragment"
+        android:label="fragment_setups"
+        tools:layout="@layout/fragment_setups" >
+        <action
+            android:id="@+id/action_setupsFragment_to_setupDetailsFragment"
+            app:destination="@id/setupDetailsFragment" />
+        <action
+            android:id="@+id/action_setupsFragment_to_landingFragment"
+            app:destination="@id/landingFragment" />
+    </fragment>
+</navigation>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="aut.arch.ui.fragments.setups.SetupsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backGround"
+        android:paddingTop="40dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/setups_first_recyclerview"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/setups_second_recyclerview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/item_setup_preview" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/setups_second_recyclerview"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/setups_new_setup"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.506"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/setups_first_recyclerview"
+            tools:listitem="@layout/item_setup_preview" />
+
+        <androidx.cardview.widget.CardView
+
+            android:id="@+id/setups_new_setup"
+            android:onClick="@{() -> viewModel.createSetup()}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp"
+            android:layout_marginVertical="25dp"
+            app:cardBackgroundColor="@color/colorOnPrimary"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/setups_new_setup_button"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:gravity="center"
+                android:scaleType="fitCenter"
+                android:text="Új felszerelés"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
