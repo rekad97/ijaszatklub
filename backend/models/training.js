@@ -7,6 +7,7 @@ const trainingModel = new Schema({
     setupId: { type: mongoose.Schema.Types.ObjectId, ref: 'Setup', required: true },
     arrowCnt: { type: Number },
     isPublic: { type: Boolean },
+    date: { type: Date },
     shots: [
         { type: mongoose.Schema.Types.ObjectId, ref: 'Shot' }
     ]
