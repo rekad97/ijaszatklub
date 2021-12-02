@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const trainingService = require('../services/training.service');
-
+const shotService = require('../services/shot.service');
 
 router.post('/create', create);
 router.get('/:id', getById);
@@ -28,6 +28,7 @@ function getAll(req, res, next) {
 }
 
 
+
 function getById(req, res, next) {
     trainingService.getById(req.params.id)
         .then(training => {
@@ -39,9 +40,14 @@ function getById(req, res, next) {
 }
 
 function getShots(req, res, next) {
+    var promises = [];
     trainingService.getById(req.params.id)
-        .then(training => {
-            training ? res.json(training.shots) : res.sendStatus(404);
+        .then(function(training) {
+            training.shots.map(function(shotId) {
+                promises.push(shotService.getById(shotId));
+            });
+            return Promise.all(promises).then(data => res.json(data));
+
         })
         .catch(err => {
             next(err)

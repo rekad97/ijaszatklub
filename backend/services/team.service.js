@@ -41,19 +41,19 @@ async function _delete(id) {
     await Team.findByIdAndRemove(id);
 }
 
-async function getTrainingsFromTeamUsers(team) {
+async function getTrainingsFromTeamUsers(id) {
+    const team = await Team.findById(id);
     let trainings = [];
-    console.log(team);
     const users = team.users;
     console.log('users', users.length);
-    for (let i = 0; i < users.length; i++) {
-        userService.getById(users[i]).then((data) => {
-            trainings.push(data.trainings);
-            console.log(trainings)
-        });
-    }
+    users.forEach(async(userId) => {
+        const user = await User.findById(userId);
+        await trainings.push(user.trainings);
+        console.log(trainings)
+    })
 
-    return trainings;
+    return await trainings;
+
 
 }
 

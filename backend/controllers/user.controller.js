@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const userService = require('../services/user.service');
-
+const trainingService = require('../services/training.service');
+const { Training } = require('../database/db');
 
 router.post('/auth', auth);
 router.post('/register', register);
@@ -62,14 +63,20 @@ function _delete(req, res, next) {
 }
 
 
-function getTrainings(req, res, next) {
+async function getTrainings(req, res, next) {
+    var promises = [];
     userService.getById(req.params.id)
-        .then(user => {
-            user ? res.json(user.trainings) : res.sendStatus(404);
+        .then(function(user) {
+            user.trainings.map(function(trainingId) {
+                promises.push(trainingService.getById(trainingId));
+            });
+            return Promise.all(promises).then(data => res.json(data));
+
         })
         .catch(err => {
             next(err)
         });
+
 }
 
 function getSetups(req, res, next) {

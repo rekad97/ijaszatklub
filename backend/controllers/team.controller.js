@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const teamService = require('../services/team.service');
-
+const userService = require('../services/user.service');
 
 router.post('/create', create);
 router.post('/:teamId/:userId/add', addUserToTeam);
 router.get('/', getAll);
 router.get('/:id/users', getTeamUsers);
 router.get('/:id', getById);
-router.get('/:id/users/trainings', getTrainingsFromTeamUsers);
+router.get('/:teamId/users/trainings', getTrainingsFromTeamUsers);
 router.delete('/:id', _delete);
 router.delete('/:teamId/delete/:userId', deleteUserFromTeam)
 
@@ -28,9 +28,18 @@ function getAll(req, res, next) {
 }
 
 function getTeamUsers(req, res, next) {
+    var promises = [];
     teamService.getById(req.params.id)
-        .then(team => team ? res.json(team.users) : res.sendStatus(404))
-        .catch(err => next(err));
+        .then(function(team) {
+            team.users.map(function(userId) {
+                promises.push(userService.getById(userId));
+            });
+            return Promise.all(promises).then(data => res.json(data));
+
+        })
+        .catch(err => {
+            next(err)
+        });
 }
 
 
@@ -53,17 +62,16 @@ function _delete(req, res, next) {
 }
 
 function getTrainingsFromTeamUsers(req, res, next) {
-    teamService.getById(req.params.id).then((team) => {
-        teamService.getTrainingsFromTeamUsers(team)
-            .then(trainings => {
-                trainings ? res.json(trainings) : res.sendStatus(404);
-            })
-            .catch(err => {
-                next(err)
-            });
-    }).catch(err => {
-        next(err);
-    });
+    teamService.getTrainingsFromTeamUsers(req.params.teamId)
+        .then(trainings => {
+            trainings ? res.json(trainings) : res.sendStatus(404).json({ message: "hoppacska itt van a bug" });
+            console.log('trainings', trainings);
+
+        })
+        .catch(err => {
+            next(err)
+        });
+
 }
 
 function addUserToTeam(req, res, next) {

@@ -15,7 +15,7 @@ module.exports = {
     delete: _delete,
     deleteShots,
     addShots,
-    updateTraining
+    updateTraining,
 };
 
 
@@ -26,6 +26,8 @@ function getById(id) {
 async function getAll() {
     return await Training.find();
 }
+
+
 
 async function create(trainingParam) {
     const training = new Training(trainingParam);
