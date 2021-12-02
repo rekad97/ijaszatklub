@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Spot On</string>
+    <string-array name="rangeSliderValues">
+        <item>15</item>
+        <item>50</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

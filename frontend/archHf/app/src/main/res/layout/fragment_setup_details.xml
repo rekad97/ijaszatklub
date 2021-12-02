@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="aut.arch.ui.fragments.setup_details.SetupDetailsViewModel" />
+
+        <import type="aut.arch.local_data.models.enums.BowType" />
+
+        <import type="android.view.View" />
+        <import type="kotlin.Unit" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backGround"
+        android:paddingTop="40dp"
+        android:paddingBottom="25dp">
+
+        <ImageView
+            android:id="@+id/setups_inactive_traditional_bow"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:onClick="@{() -> viewModel.activate(BowType.TRADITIONAL)}"
+            android:src="@drawable/inactive_traditional"
+            app:layout_constraintEnd_toStartOf="@+id/setups_inactive_recurve_bow"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/setups_inactive_recurve_bow"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:onClick="@{() -> viewModel.activate(BowType.RECURVE)}"
+            android:src="@drawable/inactive_recurve"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/setups_inactive_traditional_bow"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/setups_inactive_compound_bow"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:onClick="@{() -> viewModel.activate(BowType.COMPOUND)}"
+            android:src="@drawable/inactive_compound"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/setups_inactive_traditional_bow" />
+
+        <ImageView
+            android:id="@+id/setups_active_traditional_bow"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:onClick="@{() -> viewModel.deactivate()}"
+            android:src="@drawable/active_traditional"
+            android:visibility="@{viewModel.activeBow == BowType.TRADITIONAL ? View.VISIBLE : View.GONE}"
+            app:layout_constraintStart_toStartOf="@+id/setups_inactive_traditional_bow"
+            app:layout_constraintTop_toTopOf="@+id/setups_inactive_traditional_bow" />
+
+        <ImageView
+            android:id="@+id/setups_active_recurve_bow"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:onClick="@{() -> viewModel.deactivate()}"
+            android:src="@drawable/active_recurve"
+            android:visibility="@{viewModel.activeBow == BowType.RECURVE ? View.VISIBLE : View.GONE}"
+            app:layout_constraintStart_toStartOf="@+id/setups_inactive_recurve_bow"
+            app:layout_constraintTop_toTopOf="@+id/setups_inactive_recurve_bow" />
+
+        <ImageView
+            android:id="@+id/setups_active_compound_bow"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:onClick="@{() -> viewModel.deactivate()}"
+            android:src="@drawable/active_compound"
+            android:visibility="@{viewModel.activeBow == BowType.COMPOUND ? View.VISIBLE : View.GONE}"
+            app:layout_constraintStart_toStartOf="@+id/setups_inactive_compound_bow"
+            app:layout_constraintTop_toTopOf="@+id/setups_inactive_compound_bow" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/training_done"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/setups_inactive_compound_bow">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/backGround">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/setups_training_type_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginBottom="10dp"
+                    app:cardBackgroundColor="@color/colorOnPrimary"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/setups_training_type_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:scaleType="fitCenter"
+                        android:text="@{viewModel.activeTypeText}"
+                        android:textColor="@color/white"
+                        android:textSize="30sp" />
+                </androidx.cardview.widget.CardView>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/setup_name"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginVertical="10dp"
+                    android:textColorHint="@color/white"
+                    app:boxBackgroundColor="@color/colorOnPrimary"
+                    app:boxCornerRadiusBottomEnd="15dp"
+                    app:boxCornerRadiusBottomStart="15dp"
+                    app:boxCornerRadiusTopEnd="15dp"
+                    app:boxCornerRadiusTopStart="15dp"
+                    app:boxStrokeColor="@color/white"
+                    app:boxStrokeWidth="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/setups_training_type_card">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/setup_name_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Felszerelés neve"
+                        android:paddingHorizontal="25dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/setup_middle_part"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginVertical="10dp"
+                    android:textColorHint="@color/white"
+                    app:boxBackgroundColor="@color/colorOnPrimary"
+                    app:boxCornerRadiusBottomEnd="15dp"
+                    app:boxCornerRadiusBottomStart="15dp"
+                    app:boxCornerRadiusTopEnd="15dp"
+                    app:boxCornerRadiusTopStart="15dp"
+                    app:boxStrokeColor="@color/white"
+                    app:boxStrokeWidth="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/setup_name">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/setup_middle_part_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Középrész"
+                        android:paddingHorizontal="25dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/setup_arm"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginVertical="10dp"
+                    android:textColorHint="@color/white"
+                    app:boxBackgroundColor="@color/colorOnPrimary"
+                    app:boxCornerRadiusBottomEnd="15dp"
+                    app:boxCornerRadiusBottomStart="15dp"
+                    android:visibility="@{viewModel.activeBow == BowType.TRADITIONAL? View.GONE : View.VISIBLE}"
+                    app:boxCornerRadiusTopEnd="15dp"
+                    app:boxCornerRadiusTopStart="15dp"
+                    app:boxStrokeColor="@color/white"
+                    app:boxStrokeWidth="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/setup_middle_part">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/setup_arm_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Kar"
+                        android:paddingHorizontal="25dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/setup_retice"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginVertical="10dp"
+                    android:textColorHint="@color/white"
+                    app:boxBackgroundColor="@color/colorOnPrimary"
+                    android:visibility="@{viewModel.activeBow == BowType.TRADITIONAL? View.GONE : View.VISIBLE}"
+                    app:boxCornerRadiusBottomEnd="15dp"
+                    app:boxCornerRadiusBottomStart="15dp"
+                    app:boxCornerRadiusTopEnd="15dp"
+                    app:boxCornerRadiusTopStart="15dp"
+                    app:boxStrokeColor="@color/white"
+                    app:boxStrokeWidth="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/setup_arm">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/setup_retice_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Irányzék"
+                        android:paddingHorizontal="25dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:visibility="@{viewModel.activeBow == BowType.COMPOUND? View.VISIBLE : View.GONE}"
+                    android:id="@+id/setup_stabilizator"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginVertical="10dp"
+                    android:textColorHint="@color/white"
+                    app:boxBackgroundColor="@color/colorOnPrimary"
+                    app:boxCornerRadiusBottomEnd="15dp"
+                    app:boxCornerRadiusBottomStart="15dp"
+                    app:boxCornerRadiusTopEnd="15dp"
+                    app:boxCornerRadiusTopStart="15dp"
+                    app:boxStrokeColor="@color/white"
+                    app:boxStrokeWidth="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/setup_retice">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/setup_stabilizator_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Stabilizátor"
+                        android:paddingHorizontal="25dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/setup_arrow"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginTop="10dp"
+                    android:textColorHint="@color/white"
+                    app:boxBackgroundColor="@color/colorOnPrimary"
+                    app:boxCornerRadiusBottomEnd="15dp"
+                    app:boxCornerRadiusBottomStart="15dp"
+                    app:boxCornerRadiusTopEnd="15dp"
+                    app:boxCornerRadiusTopStart="15dp"
+                    app:boxStrokeColor="@color/white"
+                    app:boxStrokeWidth="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/setup_stabilizator">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/setup_arrow_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Nyíl vessző típus"
+                        android:paddingHorizontal="25dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/setup_save"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginHorizontal="25dp"
+            android:layout_marginBottom="25dp"
+            app:cardBackgroundColor="@color/colorOnPrimary"
+            android:onClick="@{() -> viewModel.save()}"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="15dp"
+            app:layout_constraintBottom_toTopOf="@id/setups_back_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/setup_save_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:scaleType="fitCenter"
+                android:text="Mentés"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/setups_back_button"
+            android:onClick="@{() -> viewModel.back()}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="80dp"
+            app:cardBackgroundColor="@color/colorPrimaryVariant"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/setups_back"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:scaleType="fitCenter"
+                android:text="Vissza"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

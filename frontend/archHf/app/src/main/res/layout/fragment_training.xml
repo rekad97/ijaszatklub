@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="aut.arch.ui.fragments.training.TrainingViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backGround"
+        android:paddingTop="40dp">
+
+        <TextView
+            android:id="@+id/training_sum_point_preset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp"
+            android:text="Össz pontszám: "
+            android:textColor="@color/colorOnPrimary"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/training_sum_point_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/training_sum_point_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp"
+            android:text="0"
+            android:textColor="@color/colorOnPrimary"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/training_sum_point_preset"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="50dp"
+            android:clipToPadding="false"
+            android:paddingVertical="25dp"
+            app:layout_constraintBottom_toTopOf="@id/training_outside_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/training_sum_point_preset"
+            tools:listitem="@layout/item_setup_preview" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/training_shot_count_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp"
+            android:layout_marginTop="15dp"
+            android:onClick="@{() -> viewModel.activatePopup()}"
+            app:cardBackgroundColor="@color/colorOnPrimary"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/training_sum_point_preset">
+
+            <TextView
+                android:id="@+id/training_shot_count_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:scaleType="fitCenter"
+                android:text="Lövések száma: 15"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/training_outside_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:text="Kültréri"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/training_indoor_outdoor_switch" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/training_indoor_outdoor_switch"
+            style="@style/Widget.App.Switch"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:scaleX="2"
+            android:scaleY="2"
+            app:layout_constraintBottom_toTopOf="@+id/training_public_switch"
+            app:layout_constraintStart_toEndOf="@id/training_outside_text" />
+
+        <TextView
+            android:id="@+id/training_inside_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="45dp"
+            android:text="Beltéri"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            app:layout_constraintStart_toEndOf="@id/training_indoor_outdoor_switch"
+            app:layout_constraintTop_toTopOf="@+id/training_indoor_outdoor_switch" />
+
+        <TextView
+            android:id="@+id/training_private_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Privát"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="@+id/training_outside_text"
+            app:layout_constraintTop_toTopOf="@+id/training_public_switch" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/training_public_switch"
+            style="@style/Widget.App.Switch"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:scaleX="2"
+            android:scaleY="2"
+            app:layout_constraintBottom_toTopOf="@id/training_done"
+            app:layout_constraintStart_toEndOf="@id/training_outside_text" />
+
+        <TextView
+            android:id="@+id/training_public_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Publikus"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="@+id/training_inside_text"
+            app:layout_constraintTop_toTopOf="@+id/training_public_switch" />
+
+        <androidx.cardview.widget.CardView
+            android:onClick="@{() -> viewModel.done()}"
+            android:id="@+id/training_done"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginHorizontal="25dp"
+            android:layout_marginBottom="110dp"
+            app:cardBackgroundColor="@color/colorOnPrimary"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/training_done_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:scaleType="fitCenter"
+                android:text="kész"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <FrameLayout
+                android:id="@+id/training_bottom_sheet"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bottom_sheet_background"
+                android:paddingVertical="15dp"
+                app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/training_bottom_sheet_line"
+                        android:layout_width="45dp"
+                        android:layout_height="8dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/line"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/training_shot_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/training_bottom_sheet_line">
+
+                        <TextView
+                            android:id="@+id/training_shot_current"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:paddingStart="25dp"
+                            android:text="0"
+                            android:textColor="@color/colorOnPrimary"
+                            android:textSize="45sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toStartOf="@id/training_shot_all"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/training_shot_all"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:paddingEnd="25dp"
+                            android:text="/15 lövés"
+                            android:textColor="@color/colorOnPrimary"
+                            android:textSize="45sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toEndOf="@+id/training_shot_current"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/training_shot_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="25dp"
+                        app:cardCornerRadius="15dp"
+                        app:cardElevation="15dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/training_shot_count">
+
+                        <aut.arch.ui.widgets.ShotWidget
+                            android:id="@+id/training_shot_widget"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </androidx.cardview.widget.CardView>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/training_distance"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="25dp"
+                        android:layout_marginVertical="10dp"
+                        android:textColorHint="@color/white"
+                        app:boxBackgroundColor="@color/colorOnPrimary"
+                        app:boxCornerRadiusBottomEnd="15dp"
+                        app:boxCornerRadiusBottomStart="15dp"
+                        app:boxCornerRadiusTopEnd="15dp"
+                        app:boxCornerRadiusTopStart="15dp"
+                        app:boxStrokeColor="@color/white"
+                        app:boxStrokeWidth="0dp"
+                        app:layout_constraintEnd_toStartOf="@id/training_shot"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/training_shot_card"
+                        app:suffixText=" méter">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/training_distance_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:hint="Távolság"
+                            android:inputType="number"
+                            android:paddingHorizontal="25dp"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/white" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/training_shot"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="2dp"
+                        android:onClick="@{() -> viewModel.shot()}"
+                        app:cardBackgroundColor="@color/colorOnPrimary"
+                        app:cardCornerRadius="15dp"
+                        app:cardElevation="15dp"
+                        app:layout_constraintBottom_toBottomOf="@id/training_distance"
+                        app:layout_constraintEnd_toEndOf="@id/training_shot_card"
+                        app:layout_constraintStart_toEndOf="@id/training_distance"
+                        app:layout_constraintTop_toTopOf="@id/training_distance">
+
+                        <TextView
+                            android:id="@+id/training_shot_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:scaleType="fitCenter"
+                            android:text="Lövés"
+                            android:textColor="@color/white"
+                            android:textSize="30sp" />
+                    </androidx.cardview.widget.CardView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </FrameLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
