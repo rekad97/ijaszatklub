@@ -13,7 +13,8 @@ const userModel = new Schema({
     setups: [
         { type: mongoose.Schema.Types.ObjectId, ref: 'Setup' }
 
-    ]
+    ],
+    bestPoint: { type: Number }
 });
 
 userModel.set('toJSON', {

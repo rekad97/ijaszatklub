@@ -3,7 +3,7 @@ const router = express.Router();
 const userService = require('../services/user.service');
 const trainingService = require('../services/training.service');
 const { Training } = require('../database/db');
-
+const shotService = require('../services/shot.service')
 router.post('/auth', auth);
 router.post('/register', register);
 router.get('/', getAll);
@@ -11,6 +11,8 @@ router.get('/current', getCurrent);
 router.get('/:id', getById);
 router.get('/:id/trainings', getTrainings);
 router.get('/:id/setups', getSetups);
+router.get('/:id/maxPoints', getMaxPoints);
+router.get('/:id/averagePoints', getAveragePoints);
 router.get('/:id/teams', getTeams);
 router.delete('/:id', _delete);
 
@@ -93,6 +95,58 @@ function getTeams(req, res, next) {
     userService.getById(req.params.id)
         .then(user => {
             user ? res.json(user.teams) : res.sendStatus(404);
+        })
+        .catch(err => {
+            next(err)
+        });
+}
+
+
+async function getMaxPoints(req, res, next) {
+    var points = [];
+    userService.getById(req.params.id)
+        .then(user => {
+            user.trainings.forEach(item => {
+                trainingService.getById(item).then(training => {
+                    training.shots.map(shotId => {
+                        points.push(shotService.getShotScore(shotId).then());
+                    });
+                    return Promise.all(points).then(data => {
+                        const maxPoint = Math.max.apply(Math, data);
+                        res.json(maxPoint);
+                    })
+
+                })
+
+            })
+        })
+        .catch(err => {
+            next(err)
+        });
+}
+
+async function getAveragePoints(req, res, next) {
+    var points = [];
+    var sum = 0;
+    userService.getById(req.params.id)
+        .then(user => {
+            user.trainings.forEach(item => {
+                trainingService.getById(item).then(training => {
+                    training.shots.map(shotId => {
+                        points.push(shotService.getShotScore(shotId).then());
+                    });
+                    return Promise.all(points).then(data => {
+                        data.forEach(item => {
+                            sum += item;
+                        })
+                        var length = data.length;
+                        var average = (sum / length).toFixed(2);
+                        res.json(average);
+                    })
+
+                })
+
+            })
         })
         .catch(err => {
             next(err)

@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const db = require('../database/db');
 const userService = require('../services/user.service');
+const userController = require('../controllers/user.controller');
+
 const Team = db.Team;
 const User = db.User;
 
@@ -41,21 +43,23 @@ async function _delete(id) {
     await Team.findByIdAndRemove(id);
 }
 
-async function getTrainingsFromTeamUsers(id) {
+async function getTrainingsFromTeamUsers(id, res) {
+    var promises = [];
     const team = await Team.findById(id);
     let trainings = [];
     const users = team.users;
     console.log('users', users.length);
     users.forEach(async(userId) => {
         const user = await User.findById(userId);
-        await trainings.push(user.trainings);
-        console.log(trainings)
+        await promises.push(user.trainings);
+        console.log(promises)
     })
 
-    return await trainings;
+    return Promise.all(promises).then(data => res.json(data));
 
 
 }
+
 
 async function addUser(teamId, userId) {
     User.findByIdAndUpdate(userId, { $push: { teams: teamId } }, { new: true }).then();

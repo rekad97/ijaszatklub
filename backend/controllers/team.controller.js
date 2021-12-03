@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const teamService = require('../services/team.service');
 const userService = require('../services/user.service');
+const trainingService = require('../services/training.service');
 
 router.post('/create', create);
 router.post('/:teamId/:userId/add', addUserToTeam);
@@ -61,16 +62,22 @@ function _delete(req, res, next) {
         .catch(err => next(err));
 }
 
-function getTrainingsFromTeamUsers(req, res, next) {
-    teamService.getTrainingsFromTeamUsers(req.params.teamId)
-        .then(trainings => {
-            trainings ? res.json(trainings) : res.sendStatus(404).json({ message: "hoppacska itt van a bug" });
-            console.log('trainings', trainings);
+async function getTrainingsFromTeamUsers(req, res, next) {
+    var promises = [];
+    await teamService.getById(req.params.teamId).then(function(team) {
+        team.users.map(function(userId) {
+            userService.getById(userId).then(function(user) {
+                user.trainings.map(function(trainingId) {
+                    promises.push(trainingService.getById(trainingId).then().catch());
+                });
+                return Promise.all(promises).then(data => res.json(data));
+
+            })
 
         })
-        .catch(err => {
-            next(err)
-        });
+    }).catch(err => {
+        next(err);
+    })
 
 }
 

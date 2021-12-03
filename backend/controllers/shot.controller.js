@@ -5,10 +5,17 @@ const shotService = require('../services/shot.service');
 
 router.post('/create', create);
 router.get('/:id', getById);
+router.get('/:id/score', getShotScore);
 router.delete('/:id', _delete);
 
 module.exports = router;
 
+
+function getShotScore(req, res, next) {
+    shotService.getShotScore(req.params.id)
+        .then((shot) => res.json(shot))
+        .catch(err => next(err));
+}
 
 function create(req, res, next) {
     shotService.create(req.body)

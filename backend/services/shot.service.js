@@ -11,6 +11,7 @@ module.exports = {
     getById,
     create,
     delete: _delete,
+    getShotScore
 };
 
 
@@ -28,4 +29,9 @@ async function create(shotParam) {
 
 async function _delete(id) {
     await Shot.findByIdAndRemove(id);
+}
+
+async function getShotScore(id) {
+    const shot = await Shot.findById(id);
+    return shot.score;
 }
