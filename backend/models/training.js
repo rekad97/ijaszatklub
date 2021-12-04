@@ -8,6 +8,7 @@ const trainingModel = new Schema({
     arrowCnt: { type: Number },
     isPublic: { type: Boolean },
     date: { type: Date },
+    score: { type: Number },
     shots: [
         { type: mongoose.Schema.Types.ObjectId, ref: 'Shot' }
     ]
