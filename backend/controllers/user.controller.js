@@ -13,6 +13,7 @@ router.get('/:id/trainings', getTrainings);
 router.get('/:id/setups', getSetups);
 router.get('/:id/maxPoints', getMaxPoints);
 router.get('/:id/averagePoints', getAveragePoints);
+router.get('/:id/bestTraining', getBestTrainings);
 router.get('/:id/teams', getTeams);
 router.delete('/:id', _delete);
 
@@ -45,13 +46,12 @@ function getCurrent(req, res, next) {
 
 
 function getById(req, res, next) {
+    var obj;
     userService.getById(req.params.id)
         .then(user => {
             user ? res.json(user) : res.sendStatus(404);
-            console.log("Usern in ID", user);
         })
         .catch(err => {
-            console.log('getByid error', err);
             next(err)
         });
 }
@@ -135,6 +135,7 @@ async function getAveragePoints(req, res, next) {
                     training.shots.map(shotId => {
                         points.push(shotService.getShotScore(shotId).then());
                     });
+
                     return Promise.all(points).then(data => {
                         data.forEach(item => {
                             sum += item;
@@ -142,11 +143,63 @@ async function getAveragePoints(req, res, next) {
                         var length = data.length;
                         var average = (sum / length).toFixed(2);
                         res.json(average);
+                        return
+
+
+                    }).catch(err => {
+                        return
+                    })
+                }).catch(err => {
+                    return
+                });
+
+            })
+        })
+        .catch(err => {
+            return
+        });
+
+}
+
+async function test(req, res, next) {
+
+}
+async function getBestTrainings(req, res, next) {
+    var array;
+    var trainingAverage = [];
+    var trainingPoints = [];
+    var array = [];
+    // var trainingPoints = [];
+    var sumOfOneTraining = 0;
+    userService.getById(req.params.id)
+        .then(user => {
+            user.trainings.forEach(item => {
+                trainingService.getById(item).then(training => {
+                    training.shots.forEach(shotId => {
+                        shotService.getShotScore(shotId).then(point => {
+                            trainingPoints.push(point);
+                            array = Promise.all(trainingPoints);
+                            // res.json(trainingPoints);
+                        });
                     })
 
                 })
+                console.log(array);
 
+                // trainingPoints.forEach(point => {
+                //     console.log('itt');
+
+                //     console.log('points', point)
+                //     sumOfOneTraining += point;
+                //     console.log('sum', sumOfOneTraining)
+
+                //     var length = data.length;
+                //     var average = (sumOfOneTraining / length).toFixed(2);
+                //     trainingAverage.push({ item, average });
+                //     console.log('before', trainingAverage);
+                // })
             })
+
         })
         .catch(err => {
             next(err)
