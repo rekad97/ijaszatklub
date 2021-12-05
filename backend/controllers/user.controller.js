@@ -142,7 +142,7 @@ async function getAveragePoints(req, res, next) {
                         })
                         var length = data.length;
                         var average = (sum / length).toFixed(1);
-                        res.json(average);
+                        res.json({ "average": average });
                         return
 
 
